@@ -10,18 +10,12 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-#
-# nginx-ssl-proxy
-#
-# VERSION   0.0.1
 
 FROM nginx
-
-MAINTAINER Evan Brown <evanbrown@google.com>
+MAINTAINER Alex Kern <alex@pavlovml.com>
 
 RUN rm /etc/nginx/conf.d/*.conf
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY nginx/proxy.conf /etc/nginx/conf.d/proxy.conf
+COPY nginx.conf proxy.conf /etc/nginx/
 
 WORKDIR /usr/src
 COPY start.sh .
