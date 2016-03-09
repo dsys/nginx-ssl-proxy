@@ -20,17 +20,13 @@ FROM nginx
 MAINTAINER Evan Brown <evanbrown@google.com>
 
 RUN rm /etc/nginx/conf.d/*.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/proxy.conf /etc/nginx/conf.d/proxy.conf
 
 WORKDIR /usr/src
+COPY start.sh .
 
-ADD start.sh /usr/src/
-ADD nginx/nginx.conf /etc/nginx/
-ADD nginx/proxy*.conf /usr/src/
-ADD nginx/default*.conf /usr/src/
+RUN mkdir -p /tmp/letsencrypt/.well-known/acme-challenge/ && \
+    echo "OK" > /tmp/letsencrypt/.well-known/acme-challenge/health
 
-RUN mkdir /etc/nginx/snippets/
-RUN mkdir -p /tmp/letsencrypt/.well-known/acme-challenge/
-RUN echo "OK" > /tmp/letsencrypt/.well-known/acme-challenge/health
-ADD nginx/letsencrypt.conf /etc/nginx/snippets/letsencrypt.conf
-
-CMD ["./start.sh"]
+CMD [ "./start.sh" ]
